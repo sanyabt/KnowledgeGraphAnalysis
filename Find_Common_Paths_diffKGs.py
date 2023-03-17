@@ -111,19 +111,26 @@ def main():
     full_or_skim = args.FullOrSkim
     output_patterns = args.OutputPatterns
 
-    microbe_phenio_triples_file = '/Users/brooksantangelo/Documents/HunterLab/Exploration/kg_microbe_phenio/output_data/merged-kg/kgx_merged-kg_edges.tsv'
-    microbe_phenio_labels_file = '/Users/brooksantangelo/Documents/HunterLab/Exploration/kg_microbe_phenio/output_data/merged-kg/kgx_merged-kg_nodes.tsv'
+    npkg_edges = '/Users/sanya/np-kg/resources/knowledge_graphs/kgx-files/NP-KG-merged-instance-based-OWLNETS-v1.0.1_edges.tsv'
+    npkg_nodes = '/Users/sanya/np-kg/resources/knowledge_graphs/kgx-files/NP-KG-merged-instance-based-OWLNETS-v1.0.1_nodes.tsv'
 
-    mgmlink_triples_file = '/Users/brooksantangelo/Documents/HunterLab/MGMLink/git/MGMLink/Output/PheKnowLator_v3.0.2_full_instance_relationsOnly_OWLNETS_Triples_Identifiers_withGutMGene_withMicrobes.txt'
-    mgmlink_labels_file = '/Users/brooksantangelo/Documents/HunterLab/MGMLink/git/MGMLink/Output/PheKnowLator_v3.0.2_full_instance_relationsOnly_OWLNETS_NodeLabels_NewEntities.txt'
+    #mgmlink_triples_file = '/Users/brooksantangelo/Documents/HunterLab/MGMLink/git/MGMLink/Output/PheKnowLator_v3.0.2_full_instance_relationsOnly_OWLNETS_Triples_Identifiers_withGutMGene_withMicrobes.txt'
+    #mgmlink_labels_file = '/Users/brooksantangelo/Documents/HunterLab/MGMLink/git/MGMLink/Output/PheKnowLator_v3.0.2_full_instance_relationsOnly_OWLNETS_NodeLabels_NewEntities.txt'
 
     if graph_type == 'kg-covid19':
-        graph = [microbe_phenio_triples_file,microbe_phenio_labels_file]
-        ont_types = {'CHEBI:':'CHEBI','PR:':'PRO','MONDO:':'MONDO','/hgnc/':'hgnc','CL:':'CLO','CARO:':'CARO','BSPO:':'BSPO','NCBITaxon:':'NCBITaxon/ContextualMicrobe','BTO:':'BTO','GO:':'GO','CHR:':'CHR','FBbt:':'FBbt','FMA:':'FMA','HP:':'HPO','MA:':'MA','MP:':'MPO','OBA:':'OBA','PATO:':'PATO','PLANA:':'PLANA','UBERON:':'UBERON','UPHENO:':'UPHENO','WBbt:':'WBbt','ZP:':'ZP','ENSEMBL:':'ENSEMBL','CHEMBL.':'CHEMBL','NBO:':'MONDO','ENVO:':'ENVO','ECOCORE:':'ECOCORE','MFOMD:':'MONDO','BFO:':'BFO'}
+        graph = [npkg_edges,npkg_nodes]
+        ont_types = {'PO:':'plant', 'MONDO:':'MONDO', 'BFO:':'BFO', 'PW:':'PW','CLO:':'CLO', 'NCBIGene:':'NCBIGene', 
+        'UBERON':'UBERON', 'OBO':'OBO', 'PATO':'PATO', 
+        'ExO':'ExO', 'NCIT':'NCIT', 'CHEBI':'CHEBI', 'HP':'HP', 'http://napdi.org/napdi_srs_imports:':'napdi', 'DOID':'DOID', 'GO:':'GO', 
+        'CL:':'CL', 'UBERON_CORE:':'UBERON', 'FOODON:': 'FOODON', 'MAXO:':'MAXO', 'https://reactome.org/content/detail/':'REACTOME_PW',
+        'HGNC:':'HGNC', 'RO:':'RO', 'EFO:':'EFO', 'SO:':'SO', 'ENVO:':'ENVO', 'FMA:':'FMA', 'HsapDv:':'HsapDv',
+        'PR:':'PRO', 'UPHENO:':'UPHENO', 'PCO:':'PCO','NCBITaxon:':'NCBITaxon'}
     
     if graph_type == 'pkl':
         graph = [mgmlink_triples_file,mgmlink_labels_file]
-        ont_types = {'pkt/':'NCBITaxon/ContextualMicrobe','/CHEBI_':'CHEBI','/PR_':'PRO','/PW_':'REACTOME_PW','/gene':'gene','/MONDO_':'MONDO','/HP_':'HPO','/VO_':'vaccine entity','/EFO_':'EFO','FAKEURI_':'other chemical','NCBITaxon_':'NCBITaxon/ContextualMicrobe','/GO_':'GO','/DOID_':'MONDO','NBO_':'MONDO'}
+        ont_types = {'pkt/':'NCBITaxon/ContextualMicrobe','/CHEBI_':'CHEBI','/PR_':'PRO','/PW_':'REACTOME_PW','/gene':'gene',
+        '/MONDO_':'MONDO','/HP_':'HPO','/VO_':'vaccine entity','/EFO_':'EFO','FAKEURI_':'other chemical',
+        'NCBITaxon_':'NCBITaxon/ContextualMicrobe','/GO_':'GO','/DOID_':'MONDO','NBO_':'MONDO'}
     
 
     g = create_graph(graph[0],graph[1])
@@ -136,7 +143,7 @@ def main():
     
 
     for f in csv_files:
-
+        print(f)
         pattern,name = process_files(f,g.labels_all,full_or_skim,ont_types,output_patterns)
         path_length = get_path_length(f)
         if pattern != 'none':

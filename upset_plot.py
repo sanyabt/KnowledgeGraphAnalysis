@@ -17,14 +17,14 @@ from collections import defaultdict
 def defineArguments():
     parser=argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
-    parser.add_argument("--pkl-directory",dest="PklDirectory",required=True,help="PklDirectory")
+    #parser.add_argument("--pkl-directory",dest="PklDirectory",required=True,help="PklDirectory")
     parser.add_argument("--kg-directory",dest="KgDirectory",required=True,help="KgDirectory")
 
     return parser
 
 def get_data(directory,kg_type):
 
-    df = pd.read_csv(directory+'/Pattern_Counts_Skim.csv')
+    df = pd.read_csv(directory+'/Patterns_Counts_Skim.csv')
 
     print(directory)
 
@@ -91,14 +91,14 @@ def main():
     parser = defineArguments()
     args = parser.parse_args()
 
-    pkl_directory = args.PklDirectory
+    #pkl_directory = args.PklDirectory
     kg_directory = args.KgDirectory
     
     
-    pkl_df = get_data(pkl_directory,'pkl')
+    #pkl_df = get_data(pkl_directory,'pkl')
     kg_df = get_data(kg_directory,'kg')
-
-    full_df = pd.merge(pkl_df,kg_df,how='outer')
+    full_df = kg_df
+    #full_df = pd.merge(pkl_df,kg_df,how='outer')
     full_df = full_df.replace(np.nan, int(0))
     cols = list(full_df.columns)
     cols.remove('kg_type')
@@ -116,13 +116,13 @@ def main():
                         title="Path Count per KG", elements=20)
     
     upset.plot()
-    plt.suptitle("Microbe-Neurotransmitter-Disease Path Patterns Found in Each KG") #Microbe-Neurotransmitter-Disease for two paths as input to command line, Microbe-Disease for one paths
-    plt.legend(["MGMLink","kg-microbe-phenio"])
-    save_dir = pkl_directory.split('pkl_shortest_path')[0]
+    plt.suptitle("NP-AE paths")
+    plt.legend(["NP-KG-unweighted"])
+    #save_dir = kg_directory.split('npkg_shortest_path')[0]
+    save_dir = kg_directory
+    #plt.show()
 
-    plt.show()
-
-    #plt.savefig(save_dir+'/upset_plot.png')
+    plt.savefig(save_dir+'/upset_plot.png')
 
 
 if __name__ == '__main__':

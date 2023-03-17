@@ -6,31 +6,34 @@ from visualize_subgraph import output_visualization
 from evaluation import *
 from graph_experiments import *
 from find_path import template_based_search
+import pickle
 
 def main():
 
-    microbe_phenio_triples_file = '/Users/brooksantangelo/Documents/HunterLab/Exploration/kg_microbe_phenio/output_data/merged-kg/kgx_merged-kg_edges.tsv'
-    microbe_phenio_labels_file = '/Users/brooksantangelo/Documents/HunterLab/Exploration/kg_microbe_phenio/output_data/merged-kg/kgx_merged-kg_nodes.tsv'
+    npkg_edges = '/Users/sanya/np-kg/resources/knowledge_graphs/kgx-files/NP-KG-merged-instance-based-OWLNETS-v1.0.1_edges.tsv'
+    npkg_nodes = '/Users/sanya/np-kg/resources/knowledge_graphs/kgx-files/NP-KG-merged-instance-based-OWLNETS-v1.0.1_nodes.tsv'
 
-    mgmlink_triples_file = '/Users/brooksantangelo/Documents/HunterLab/MGMLink/git/MGMLink/Output/PheKnowLator_v3.0.2_full_instance_relationsOnly_OWLNETS_Triples_Identifiers_withGutMGene_withMicrobes.txt'
-    mgmlink_labels_file = '/Users/brooksantangelo/Documents/HunterLab/MGMLink/git/MGMLink/Output/PheKnowLator_v3.0.2_full_instance_relationsOnly_OWLNETS_NodeLabels_NewEntities.txt'
+    #mgmlink_triples_file = '/Users/brooksantangelo/Documents/HunterLab/MGMLink/git/MGMLink/Output/PheKnowLator_v3.0.2_full_instance_relationsOnly_OWLNETS_Triples_Identifiers_withGutMGene_withMicrobes.txt'
+    #mgmlink_labels_file = '/Users/brooksantangelo/Documents/HunterLab/MGMLink/git/MGMLink/Output/PheKnowLator_v3.0.2_full_instance_relationsOnly_OWLNETS_NodeLabels_NewEntities.txt'
 
-    mikg4md_relations_file = '/Users/brooksantangelo/Documents/HunterLab/ISMB2023/Mikg4md_experiment/Microbe_Neurotransmitter_MentalDisorder_EvidenceAB.csv'
+    #mikg4md_relations_file = '/Users/brooksantangelo/Documents/HunterLab/ISMB2023/Mikg4md_experiment/Microbe_Neurotransmitter_MentalDisorder_EvidenceAB.csv'
 
-    graphs = [[microbe_phenio_triples_file,microbe_phenio_labels_file],[mgmlink_triples_file,mgmlink_labels_file]]
-    kg_types = ['kg-covid19','pkl']
+    graphs = [[npkg_edges,npkg_nodes]]
+    kg_types = ['kg-covid19']
 
     #graphs = [[mgmlink_triples_file,mgmlink_labels_file]]
     #kg_types = ['pkl']
 
     #Work looking at only depressive disorder only went to Experiment2 folder, added /all_mechs_onePath or _twoPaths folder for all diseases
-    output_dir = '/Users/brooksantangelo/Documents/HunterLab/ISMB2023/Experiment2'
+    output_dir = '/Users/sanya/np-kg-workspace/upset-plots'
 
     
     embedding_dimensions = 128
     weights = True
     search_type = 'all'
     pdp_weight = 0.4
+
+    print("Creating knowledge graph object from inputs.....")
     '''
     ## Source and target nodes of interest
     #microbe = 'Bifidobacterium dentium'
@@ -39,24 +42,10 @@ def main():
 
     #Get source and target nodes from MiKG4MD findings
     #Get all bacteria related to depression, and and neurotransmitters between that
-    mikg4md_relations = pd.read_csv(mikg4md_relations_file)
+    np_ae_relations = pd.read_csv('data/np_ae_mapped_20230207.tsv', sep='\t')
     
-    depression_relations = mikg4md_relations
-    '''
-    '''
-    #To evaluate only 1 disease
-    depression_relations = mikg4md_relations[mikg4md_relations['mental_disorder'] == 'Depressive disorder']
-    #For testing
-    depression_relations = depression_relations[depression_relations['microbe'] == 'Lactobacillus plantarum']
-    depression_relations = depression_relations[depression_relations['neurotransmitter'] == 'Serotonin']
-    '''
-
-    print("Creating knowledge graph object from inputs.....")
-
     for i in range(len(graphs)):
-        if kg_types[i] == 'kg-covid19':
-            continue
-        path_nums_dict = {}
+
         print('Graph: ',kg_types[i])
         g = create_graph(graphs[i][0],graphs[i][1])
 
@@ -64,60 +53,31 @@ def main():
         #Want to exclude the <http://purl.obolibrary.org/obo/RO_0002160> - only in taxon, <http://purl.obolibrary.org/obo/BFO_0000050> - part of
         #Want to exclude type edge for mikg4md
 
-        
         if weights == True:
             g = user_defined_edge_exclusion(g,kg_types[i])
             #g = user_defined_node_exclusion(g,kg_types[i])
         
-        #print('microbe to disease')
-        #input_df = pd.DataFrame.from_dict({'source':depression_relations['microbe'],'target':depression_relations['mental_disorder']})
-    
-        #Remove nodes that take too many resources in path search
-        '''
-        s = s[s.source != 'Burkholderia oklahomensis']
-        s = s[s.source != 'Acinetobacter baumannii']
-        s = s[s.source != 'Erysipelatoclostridium ramosum DSM 1402']
-        s = s[s.source != 'Bacteroides uniformis']
-        s = s[s.source != 'Clostridium']
-        s = s[s.source != 'Fusobacterium varium ATCC 27725']
-        s = s[s.source != 'Bacillus cereus group']
-        depression_relations = depression_relations[depression_relations.microbe != 'Burkholderia oklahomensis']
-        depression_relations = depression_relations[depression_relations.microbe != 'Acinetobacter baumannii']
-        depression_relations = depression_relations[depression_relations.microbe != 'Clostridium ramosum']
-        depression_relations = depression_relations[depression_relations.microbe != 'Bacteroides uniformis']
-        depression_relations = depression_relations[depression_relations.microbe != 'Clostridium']
-        depression_relations = depression_relations[depression_relations.microbe != 'Fusobacterium varium']
-        depression_relations = depression_relations[depression_relations.microbe != 'Bacillus cereus']
-        '''
+        print('natural product to adverse event')
+        input_df = pd.DataFrame.from_dict({'source':np_ae_relations['natural_product'],'target':np_ae_relations['adverse_event']})
 
         
-        #microbe to disease
-        '''
         #s will only include 1 source/target
         
         ###########
         s = interactive_search_wrapper_without_file(g, input_df, output_dir,kg_types[i],'onePath')
         onePath_tracker = []
-        for j in range(len(depression_relations)):
-            microbe = depression_relations.iloc[j].loc['microbe']
-            mental_disorder = depression_relations.iloc[j].loc['mental_disorder']
+        for j in range(len(np_ae_relations)):
+            np = np_ae_relations.iloc[j].loc['natural_product']
+            ae = np_ae_relations.iloc[j].loc['adverse_event']
             
-            #if microbe == 'Lactobacillus plantarum' and mental_disorder == 'Sex behavior disorder':
-            #    continue
-            #if microbe == 'Coprococcus':
-            #    continue
-            #if microbe == 'Fusobacterium ulcerans' and mental_disorder == 'Sleep disorders':
-            #    continue
-            #if microbe == 'Fusobacterium ulcerans' and mental_disorder == 'Eating disorders':
-            #    continue
-            
-            print(microbe,mental_disorder)
-            l = [microbe,mental_disorder]
-            #s = interactive_search_wrapper_without_file(g, input_df, output_dir,kg_types[i],'onePath')
+            print(np,ae)
+            l = [np,ae]
+            s = interactive_search_wrapper_without_file(g, input_df, output_dir,kg_types[i],'onePath')
             if l not in onePath_tracker:
-                nodes_input_df = pd.DataFrame([{'source':microbe,'target':mental_disorder}])
+                nodes_input_df = pd.DataFrame([{'source':np,'target':ae}])
                 one_path_search(nodes_input_df,s,g.igraph,g.igraph_nodes,g.labels_all,g.edgelist,weights,search_type,graphs[i][0],output_dir,embedding_dimensions,kg_types[i],pdp_weight)
             onePath_tracker.append(l)
+
         '''
         #############
         '''
@@ -191,10 +151,16 @@ def main():
         one_path_search(input_df,s,g.igraph,g.igraph_nodes,g.labels_all,g.edgelist,weights,search_type,graphs[i][0],output_dir,embedding_dimensions,kg_types[i],pdp_weight)c
         '''
 
-        
+        templates = {
+            0: ['napdi', 'chemical', 'protein', 'gene', 'disease'],
+            1: ['napdi', 'protein', 'gene', 'disease'],
+            2: ['napdi', 'chemical', 'protein', 'process', 'disease'],
+            3: ['napdi', 'protein', 'process', 'disease']
+        }  
+
         #Template based search
         if kg_types[i] == 'pkl':
-            template = ['X','metabolite','disease']# #  #['microbe','metabolite','gene','protein','process','metabolite','disease'] #['process','metabolite']  #['microbe','metabolite','gene','protein','process','metabolite','disease'] #['process','metabolite'] #['microbe','metabolite','gene','protein','process','metabolite','disease'] #['microbe','metabolite','gene','protein','process','disease'] #'microbe','metabolite', ,'protein','process','disease']#['microbe','gene','protein','process','neurotransmitter','disease']
+            template = ['napdi','metabolite','disease']# #  #['microbe','metabolite','gene','protein','process','metabolite','disease'] #['process','metabolite']  #['microbe','metabolite','gene','protein','process','metabolite','disease'] #['process','metabolite'] #['microbe','metabolite','gene','protein','process','metabolite','disease'] #['microbe','metabolite','gene','protein','process','disease'] #'microbe','metabolite', ,'protein','process','disease']#['microbe','gene','protein','process','neurotransmitter','disease']
         elif kg_types[i] == 'kg-covid19':
             template =  ['microbe','process','metabolite','process','disease']
         template_based_paths_df = template_based_search(template,kg_types[i],g,search_type)

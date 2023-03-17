@@ -61,11 +61,11 @@ def create_graph(triples_file,labels_file, kg_type = "pkl"):
 def process_kg_covid19_files(triples_file,labels_file):
     triples_df = pd.read_csv(triples_file,sep = '\t', usecols = ['subject', 'object', 'predicate'])
     triples_df.columns.str.lower()
-
-    labels = pd.read_csv(labels_file, sep = '\t', usecols = ['id','name','description','xrefs','synonym'])
-    labels.columns = ['id','label', 'description/definition','synonym','entity_uri']
+    print(triples_df.shape)
+    labels = pd.read_csv(labels_file, sep = '\t', usecols = ['id','name', 'description'])
+    print(labels.shape)
+    labels.columns = ['id','label', 'entity_uri']
     labels.loc[pd.isna(labels["label"]),'label'] = labels.loc[pd.isna(labels["label"]),'id']
     labels.loc[pd.isna(labels["entity_uri"]),'entity_uri'] = labels.loc[pd.isna(labels["entity_uri"]),'id']
 
-    
     return triples_df,labels

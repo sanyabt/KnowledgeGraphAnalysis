@@ -268,10 +268,10 @@ def convert_to_labels(df,labels_all,kg_type):
             if o_label != "":
                 df.iloc[i].loc['O'] = o_label
 
-    full_new_df = full_new_df.reset_index(drop=True)
-    #df = df.reset_index(drop=True)
-    #return df
-    return full_new_df
+    #full_new_df = full_new_df.reset_index(drop=True)
+    df = df.reset_index(drop=True)
+    return df
+    #return full_new_df
 
 # Wrapper functions
 #Returns the path as a dataframe of S/P/O of all triples' labels within the path
@@ -373,8 +373,14 @@ def get_node_namespace(kg_type,node_type):
 
     if kg_type == 'pkl':
         namespace_dict = {'microbe':'http://github.com/callahantiff/PheKnowLator/pkt/','gene':'http://www.ncbi.nlm.nih.gov/gene/','protein':'http://purl.obolibrary.org/obo/PR_','metabolite':'http://purl.obolibrary.org/obo/CHEBI_','process':'http://purl.obolibrary.org/obo/GO_','neurotransmitter':'http://purl.obolibrary.org/obo/CHEBI_','disease':'http://purl.obolibrary.org/obo/MONDO_','serotonin':'<http://purl.obolibrary.org/obo/CHEBI_28790>','depressive disorder':'<http://purl.obolibrary.org/obo/MONDO_0002050>'}
-    if kg_type == 'kgx':
-        namespace_dict = {'microbe':'NCBITaxon:','gene':'PR:','metabolite':'CHEBI:','process':'GO:','neurotransmitter':'CHEBI:','disease':'MONDO:'}
+    if kg_type == 'kg-covid19':
+        namespace_dict = {'napdi':'http://napdi.org/napdi_srs_imports:',
+                        'chemical':'CHEBI:',
+                        'gene':'PR:',
+                        'metabolite':'CHEBI:',
+                        'process':'GO:',
+                        'phenotype':'HP:',
+                        'disease':'MONDO:'}
     
     namespace = namespace_dict[node_type]
 

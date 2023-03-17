@@ -1,6 +1,7 @@
 import pandas as pd
 import re
 import os
+import numpy as np
 
 # set column number and width to display all information
 pd.set_option('display.max_rows', None)
@@ -30,7 +31,7 @@ def unique_nodes(examples):
 def find_node(node, kg, ontology = ""):
 	nodes = kg.labels_all
 
-	results = nodes[nodes["label"].str.contains(node,flags=re.IGNORECASE, na = False)][["label", "id"]]
+	results = nodes[nodes["label"].str.contains(node, flags=re.IGNORECASE, na=False, regex=False)][["label", "id"]]
 
 	return(results)
                 
@@ -42,6 +43,8 @@ def search_nodes(nodes, kg, examples):
 	examples["source_label"] = ""
 	examples["target_label"] = ""
 	for node in nodes:
+		if pd.isna(node):
+			continue
 		orig_node = node
 		search_loop = True
 		while(search_loop):
@@ -93,7 +96,7 @@ def search_nodes(nodes, kg, examples):
 						bad_input = False
 					else:
 						print("Input not in search results.... try again")
-		'found good input'
+		print('found good input')
 		examples.loc[examples["source"] == orig_node,"source_label"] = node_label
 		## Skip this line for comparing kg-covid19/monarch graph to pkl only
 		examples.loc[examples["target"] == orig_node,"target_label"] = node_label

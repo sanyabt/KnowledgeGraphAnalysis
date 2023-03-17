@@ -1,9 +1,9 @@
 from assign_nodes import unique_nodes
 import pandas as pd
 import csv
-import py4cytoscape as p4c
-from py4cytoscape import gen_node_color_map
-from py4cytoscape import palette_color_brewer_d_RdBu
+#import py4cytoscape as p4c
+#from py4cytoscape import gen_node_color_map
+#from py4cytoscape import palette_color_brewer_d_RdBu
 import os
 
 #subgraph_df is a dataframe with S, P, O headers and | delimited

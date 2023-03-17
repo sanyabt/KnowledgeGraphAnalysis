@@ -1,5 +1,3 @@
-
-
 from inputs import *
 from create_graph import create_graph
 from create_subgraph import subgraph_shortest_path
@@ -71,7 +69,6 @@ def one_path_search(input_df,s,igraph,igraph_nodes,labels_all,edgelist,weights,s
         subgraph_sp = subgraph_shortest_path(input_df,igraph,igraph_nodes,labels_all,edgelist,False,search_type,kg_type)
 
         print("Outputting CS visualization......")
-
         cs_noa_df = output_visualization(source_name,target_name,subgraph_sp,output_dir+'/' + kg_type+'_shortest_path')
 
 
