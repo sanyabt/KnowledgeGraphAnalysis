@@ -1,0 +1,5 @@
+S|P|O
+Mitragyna_speciosa|has_part|Mitragynine
+Mitragynine|interacts_with|nicotine
+nicotine|treats|Respiratory insufficiency
+Respiratory arrest|subclass_of|Respiratory insufficiency

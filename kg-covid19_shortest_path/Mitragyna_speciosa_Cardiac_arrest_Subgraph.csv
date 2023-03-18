@@ -1,0 +1,4 @@
+S|P|O
+Mitragyna_speciosa|has_part|Mitragynine
+Mitragynine|interacts_with|nicotine
+nicotine|treats|Cardiac arrest

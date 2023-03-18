@@ -1,0 +1,7 @@
+Pattern
+CHEBI --- HP --- MONDO --- napdi
+CHEBI --- HP --- NCBIGene --- NCBITaxon --- napdi
+CHEBI --- HP --- NCBITaxon --- napdi
+CHEBI --- HP --- napdi
+CHEBI --- MONDO --- napdi
+HP --- MONDO --- napdi

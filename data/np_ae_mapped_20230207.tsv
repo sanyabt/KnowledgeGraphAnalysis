@@ -1,0 +1,29 @@
+common_name	natural_product	adverse_event	obo_id
+Green tea	Camellia_sinensis_leaf	Spontaneous pain sensation	HP_0010833
+Green tea	Camellia_sinensis_leaf	Fever	HP_0001945
+Green tea	Camellia_sinensis_leaf	Prolonged bleeding time	HP_0003010
+Green tea	Camellia_sinensis_leaf	Night sweats	HP_0030166
+Kratom	Mitragyna_speciosa	substance dependence	MONDO_0004938
+Green tea	Camellia_sinensis_leaf	Recurrent lower respiratory tract infections	HP_0002783
+Kratom	Mitragyna_speciosa	Seizure	HP_0001250
+Green tea	Camellia_sinensis_leaf	Sinusitis	HP_0000246
+Kratom	Mitragyna_speciosa	Cardiorespiratory arrest	HP_0006543
+Green tea	Camellia_sinensis_leaf	Urticaria	HP_0001025
+Kratom	Mitragyna_speciosa	Respiratory arrest	HP_0005943
+Kratom	Mitragyna_speciosa	Caesarian section	HP_0011410
+Kratom	Mitragyna_speciosa	Cardiac arrest	HP_0001695
+Kratom	Mitragyna_speciosa	Abnormality of the coagulation cascade	HP_0003256
+Green tea	Camellia_sinensis_leaf	Sleep disturbance	HP_0002360
+Green tea	Camellia_sinensis_leaf	Back pain	HP_0003418
+Kratom	Mitragyna_speciosa	Acute hepatic failure	HP_0006554
+Kratom	Mitragyna_speciosa	Hyperhidrosis	HP_0000975
+Kratom	Mitragyna_speciosa	Bilateral tonic-clonic seizure	HP_0002069
+Green tea	Camellia_sinensis_leaf	Spasticity	HP_0001257
+Kratom	Mitragyna_speciosa	substance withdrawal syndrome	MONDO_0005567
+Green tea	Camellia_sinensis_leaf	Abnormality of the respiratory system	HP_0002086
+Kratom	Mitragyna_speciosa	substance withdrawal syndrome	MONDO_0005567
+Kratom	Mitragyna_speciosa	substance dependence	MONDO_0004938
+Kratom	Mitragyna_speciosa	serotonin syndrome	MONDO_0018546
+Green tea	Camellia_sinensis_leaf	Abdominal pain	HP_0002027
+Kratom	Mitragyna_speciosa	Irritability	HP_0000737
+Kratom	Mitragyna_speciosa	drug-induced liver injury	MONDO_0005359

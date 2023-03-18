@@ -1,0 +1,4 @@
+S|P|O
+Mitragyna_speciosa|has_part|Mitragynine
+Mitragynine|entity_regulates_entity|Tremor
+Tremor|related_to|serotonin syndrome

@@ -1,0 +1,5 @@
+S|P|O
+Mitragyna_speciosa|has_part|Mitragynine
+Mitragynine|entity_regulates_entity|Tremor
+Tremor|related_to|intellectual disability, X-linked, syndromic 33
+intellectual disability, X-linked, syndromic 33|has_phenotype|Caesarian section
