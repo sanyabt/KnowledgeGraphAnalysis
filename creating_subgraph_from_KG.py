@@ -34,7 +34,7 @@ def main():
     pdp_weight = 0.4
 
     print("Creating knowledge graph object from inputs.....")
-    '''
+    
     ## Source and target nodes of interest
     #microbe = 'Bifidobacterium dentium'
     #neurotransmitter = 'gamma-aminobutyric acid'
@@ -78,7 +78,7 @@ def main():
                 one_path_search(nodes_input_df,s,g.igraph,g.igraph_nodes,g.labels_all,g.edgelist,weights,search_type,graphs[i][0],output_dir,embedding_dimensions,kg_types[i],pdp_weight)
             onePath_tracker.append(l)
 
-        '''
+        
         #############
         '''
         print('microbe to neurotransmitter to disease')
@@ -150,7 +150,7 @@ def main():
         #Issue in get_nodes_from_input since adding duplicate source/target_label columns - it works if you try again once the pkl_randPath_Input_Nodes_.csv file is created
         one_path_search(input_df,s,g.igraph,g.igraph_nodes,g.labels_all,g.edgelist,weights,search_type,graphs[i][0],output_dir,embedding_dimensions,kg_types[i],pdp_weight)c
         '''
-
+        '''
         templates = {
             0: ['napdi', 'chemical', 'protein', 'gene', 'disease'],
             1: ['napdi', 'protein', 'gene', 'disease'],
@@ -170,6 +170,6 @@ def main():
 
         template_noa_df = output_visualization(name,'',template_based_paths_df,output_dir+'/' + kg_types[i]+'_'+search_type+'_template_based')
         
-
+'''
 if __name__ == '__main__':
     main()
